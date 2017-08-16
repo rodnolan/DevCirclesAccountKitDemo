@@ -67,9 +67,29 @@ export default class HomeScreen extends Component {
     console.log('onLoginError');
   }
 
+  logout() {
+    AccountKit.logout()
+      .then(() => {
+        this.setState({
+          authToken: null,
+          loggedAccount: null
+        })
+      })
+      .catch((e) => console.log('logout failed'))
+  }
+
   renderUserDetails() {
     const {id, email} = this.state.loggedAccount;
-    return (<Text>Account Kit User: {id}, {email}</Text>);
+    return (
+    <View>
+      <Text>Account Kit User: {id}, {email}</Text>
+      <Button title="Logout"
+          onPress={() => {
+            this.logout();
+          }}
+      />
+    </View>
+    );
   }
 
   render() {
