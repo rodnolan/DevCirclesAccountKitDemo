@@ -36,6 +36,25 @@ export default class HomeScreen extends Component {
     .catch((e) => console.log('Access token request failed', e))
   }
 
+  loginWithEmail() {
+    AccountKit.loginWithEmail()
+      .then((token) => {
+        this.onLoginSuccess(token)
+      })
+      .catch((e) => {
+        this.onLoginError(e)
+      })
+  }
+
+  onLoginSuccess(token) {
+    console.log('onLoginSuccess');
+  }
+
+  onLoginError(error) {
+    console.log('onLoginError');
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -46,6 +65,11 @@ export default class HomeScreen extends Component {
           onPress={() => {
             this.props.navigator.pop();
           }} 
+        />
+        <Button title="Login with Email"
+          onPress={() => {
+            this.loginWithEmail();
+          }}
         />
       </View>
     );
