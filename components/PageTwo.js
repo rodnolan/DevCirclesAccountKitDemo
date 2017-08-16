@@ -48,12 +48,29 @@ export default class HomeScreen extends Component {
 
   onLoginSuccess(token) {
     console.log('onLoginSuccess');
-  }
+    if (!token) {
+      console.warn('No token found')
+      this.setState({})
+    } else {
+      AccountKit.getCurrentAccount()
+        .then((account) => {
+          this.setState({
+            authToken: token,
+            loggedAccount: account
+          })
+        })
+    }
+  }  
+
 
   onLoginError(error) {
     console.log('onLoginError');
   }
 
+  renderUserDetails() {
+    const {id, email} = this.state.loggedAccount;
+    return (<Text>Account Kit User: {id}, {email}</Text>);
+  }
 
   render() {
     return (
@@ -71,6 +88,7 @@ export default class HomeScreen extends Component {
             this.loginWithEmail();
           }}
         />
+        { this.state.loggedAccount && this.renderUserDetails() }
       </View>
     );
   }
